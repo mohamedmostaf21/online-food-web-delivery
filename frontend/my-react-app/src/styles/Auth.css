@@ -1,0 +1,216 @@
+/* Auth Styles */
+.auth-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(231, 76, 60, 0.2), 0 8px 25px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(231, 76, 60, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(231, 76, 60, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.auth-card h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card input {
+  padding: 1rem;
+  border: 2px solid rgba(231, 76, 60, 0.4);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card input::placeholder {
+  color: #999;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+  background-color: white;
+}
+
+.auth-card button {
+  padding: 1rem;
+  background: linear-gradient(135deg, #e74c3c 0%, #d63828 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 20px rgba(231, 76, 60, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #d63828 0%, #c0392b 100%);
+  box-shadow: 0 0 30px rgba(231, 76, 60, 0.6), 0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.auth-card button:disabled {
+  background: linear-gradient(135deg, #999, #777);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.error-message {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.15) 0%, rgba(192, 57, 43, 0.1) 100%);
+  color: #ff9999;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #e74c3c;
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+}
+
+.auth-card p {
+  text-align: center;
+  margin-top: 1rem;
+  color: #ccc;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card a {
+  color: #f1c40f;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.auth-card a:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .auth-container {
+    max-width: 90%;
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+  }
+  
+  .auth-card {
+    padding: 1.5rem;
+  }
+  
+  .auth-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .auth-card form {
+    gap: 0.8rem;
+  }
+  
+  .auth-card input {
+    padding: 0.8rem;
+    font-size: 16px;
+  }
+  
+  .auth-card button {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .error-message {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .auth-card p {
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    max-width: 95%;
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+  
+  .auth-card {
+    padding: 1.2rem;
+  }
+  
+  .auth-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-card form {
+    gap: 0.7rem;
+  }
+  
+  .auth-card input {
+    padding: 0.7rem;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+  
+  .auth-card button {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+  
+  .error-message {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+    border-left-width: 3px;
+  }
+}

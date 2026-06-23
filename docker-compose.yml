@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Backend Service Configuration
+  backend:
+    build: ./backend
+    container_name: online_food_backend
+    ports:
+      - "5000:5000"  # Maps port 5000 of your machine to port 5000 of the container
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules  # Prevents local node_modules from overwriting container's node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=${MONGO_URI:-mongodb://localhost:27017/online_food}
+    networks:
+      - food_network
+
+  # Frontend Service Configuration
+  frontend:
+    build: ./frontend/my-react-app
+    container_name: online_food_frontend
+    ports:
+      - "5173:5173"  # Maps port 5173 of your machine to port 5173 of the container
+    volumes:
+      - ./frontend/my-react-app:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Helps React hot-reload work smoothly inside Docker containers
+      - VITE_API_URL=http://backend:5000
+    depends_on:
+      - backend  # Ensures the backend spins up before the frontend starts
+    networks:
+      - food_network
+
+  # MongoDB Service (Optional - uncomment if you want Docker to manage MongoDB)
+  # mongo:
+  #   image: mongo:7-alpine
+  #   container_name: online_food_mongodb
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongo_data:/data/db
+  #   environment:
+  #     MONGO_INITDB_DATABASE: online_food
+  #   networks:
+  #     - food_network
+
+networks:
+  food_network:
+    driver: bridge
+
+# volumes:
+#   mongo_data:
