@@ -6,12 +6,31 @@ const useStore = create((set) => ({
   token: localStorage.getItem('token') || null,
   
   setUser: (user) => {
-    set({ user });
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
+    set((state) => {
+      if (user) {
+        // Save current cart to backup for this user on login
+        const userEmail = user.email;
+        const currentCart = state.cart;
+        
+        // Try to restore cart from backup if exists
+        const backupCart = localStorage.getItem(`cart_backup_${userEmail}`);
+        const cartToUse = backupCart ? JSON.parse(backupCart) : currentCart;
+        
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('cart', JSON.stringify(cartToUse));
+        
+        return { user, cart: cartToUse };
+      } else {
+        // User is logging out - save current cart to backup and clear active cart
+        const previousUser = state.user;
+        if (previousUser) {
+          localStorage.setItem(`cart_backup_${previousUser.email}`, JSON.stringify(state.cart));
+        }
+        localStorage.removeItem('user');
+        localStorage.removeItem('cart');
+        return { user: null, cart: [] };
+      }
+    });
   },
   
   setToken: (token) => {

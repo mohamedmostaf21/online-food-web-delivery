@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Product = require('./models/Product');
+const User = require('./models/User');
 
 dotenv.config();
 
@@ -281,7 +282,30 @@ async function seedDatabase() {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/food-ordering');
     console.log('Connected to MongoDB');
 
-    // Clear existing data
+    // Create default admin user
+    const adminEmail = 'admin@foodordering.com';
+    const existingAdmin = await User.findOne({ email: adminEmail });
+    
+    if (!existingAdmin) {
+      const adminUser = new User({
+        name: 'Admin User',
+        email: adminEmail,
+        password: 'Admin@123456', // Change this in production!
+        phone: '+1234567890',
+        address: 'Admin Address',
+        role: 'admin',
+      });
+      
+      await adminUser.save();
+      console.log('✅ Default admin user created!');
+      console.log('📧 Email: admin@foodordering.com');
+      console.log('🔐 Password: Admin@123456');
+      console.log('⚠️  Change this password in production!');
+    } else {
+      console.log('ℹ️  Admin user already exists');
+    }
+
+    // Clear existing products
     await Product.deleteMany({});
     console.log('Cleared existing products');
 

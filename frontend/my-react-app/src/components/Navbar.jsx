@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import useStore from '../store/useStore';
-import { ShoppingCart, Menu, LogOut, Settings } from 'lucide-react';
+import { ShoppingCart, Menu, LogOut, Settings, LayoutDashboard } from 'lucide-react';
 import '../styles/Navbar.css';
 
 export default function Navbar() {
@@ -36,7 +36,9 @@ export default function Navbar() {
             <>
               <Link to="/orders" className="nav-link">{t('my_orders')}</Link>
               {user?.role === 'admin' && (
-                <Link to="/admin" className="nav-link">{t('admin')}</Link>
+                <Link to="/admin" className="nav-link admin-link">
+                  <LayoutDashboard size={20} /> {t('admin')}
+                </Link>
               )}
             </>
           )}

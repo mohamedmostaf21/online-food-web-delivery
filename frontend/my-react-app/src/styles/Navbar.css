@@ -62,6 +62,26 @@
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
 }
 
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 215, 0, 0.2);
+  border: 2px solid #f1c40f;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+  font-weight: 700;
+}
+
+.admin-link:hover {
+  background-color: #f1c40f;
+  color: #c0392b;
+  text-shadow: none;
+  border-bottom-color: #f1c40f;
+  transform: scale(1.05);
+}
+
 .nav-actions {
   display: flex;
   gap: 1rem;
