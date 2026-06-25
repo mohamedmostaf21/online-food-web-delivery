@@ -1,0 +1,370 @@
+/* Navbar Styles */
+.navbar {
+  background: linear-gradient(135deg, #e74c3c 0%, #d63828 25%, #c0392b 50%, #e74c3c 75%, #d63828 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  color: white;
+  padding: 1rem 0;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #f1c40f;
+  backdrop-filter: blur(10px);
+  background-attachment: fixed;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: #f1c40f;
+  border-bottom-color: #f1c40f;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 215, 0, 0.2);
+  border: 2px solid #f1c40f;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+  font-weight: 700;
+}
+
+.admin-link:hover {
+  background-color: #f1c40f;
+  color: #c0392b;
+  text-shadow: none;
+  border-bottom-color: #f1c40f;
+  transform: scale(1.05);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.lang-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.lang-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-menu {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.profile-link {
+  color: white;
+  text-decoration: none;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.auth-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.btn-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+  background-color: white;
+  color: #ff6b35;
+}
+
+.btn-primary:hover {
+  background-color: #f0f0f0;
+}
+
+.cart-link {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* RTL Support - Primary selectors using html[dir] */
+html[dir="rtl"] .navbar-container {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .nav-menu {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .nav-actions {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .admin-link {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .user-menu {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .auth-links {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .cart-count {
+  right: auto;
+  left: -8px;
+}
+
+/* Fallback RTL Support for .app.rtl class */
+.app.rtl .navbar-container {
+  flex-direction: row-reverse;
+}
+
+.app.rtl .nav-menu {
+  flex-direction: row-reverse;
+}
+
+.app.rtl .nav-actions {
+  flex-direction: row-reverse;
+}
+
+.app.rtl .navbar-logo {
+  order: 3;
+}
+
+.app.rtl .nav-menu {
+  order: 2;
+}
+
+.app.rtl .nav-actions {
+  order: 1;
+}
+
+.app.rtl .admin-link {
+  flex-direction: row-reverse;
+}
+
+.app.rtl .user-menu {
+  flex-direction: row-reverse;
+}
+
+.app.rtl .auth-links {
+  flex-direction: row-reverse;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .navbar-container {
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+  }
+  
+  .navbar-logo {
+    font-size: 1.3rem;
+  }
+  
+  .nav-menu {
+    gap: 1.5rem;
+  }
+  
+  .nav-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 0;
+  }
+  
+  .navbar-container {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .navbar-logo {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .nav-menu {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .nav-link {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .nav-actions {
+    gap: 0.7rem;
+  }
+  
+  .lang-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .user-menu {
+    gap: 0.7rem;
+  }
+  
+  .auth-links {
+    gap: 0.5rem;
+  }
+  
+  .btn-link {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5rem 0;
+  }
+  
+  .navbar-container {
+    gap: 0.8rem;
+    padding: 0 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-logo {
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    flex-basis: 100%;
+  }
+  
+  .nav-menu {
+    gap: 0.8rem;
+    font-size: 0.8rem;
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .nav-link {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .nav-actions {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .lang-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .user-menu {
+    gap: 0.5rem;
+  }
+  
+  .auth-links {
+    gap: 0.4rem;
+  }
+  
+  .btn-link {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+  }
+}
