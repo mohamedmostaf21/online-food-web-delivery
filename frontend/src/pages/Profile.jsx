@@ -25,7 +25,12 @@ export default function Profile() {
   const loadUserProfile = async () => {
     try {
       const response = await usersAPI.getMe();
-      setFormData(response.data);
+      setFormData({
+        name: response.data.name || '',
+        email: response.data.email || '',
+        phone: response.data.phone || '',
+        address: response.data.address || '',
+      });
       setLoading(false);
     } catch (error) {
       console.error('Error loading profile:', error);
@@ -34,18 +39,24 @@ export default function Profile() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdating(true);
     try {
-      const response = await usersAPI.updateProfile(formData);
-      setUser(response.data);
-      showMessage('success', 'Profile updated successfully');
+      const response = await usersAPI.updateProfile({
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        address: formData.address.trim(),
+      });
+      setUser(response.data, { preserveCart: true });
+      showMessage('success', t('profile_updated_successfully'));
     } catch (error) {
-      showMessage('error', 'Error updating profile');
+      console.error('Error updating profile:', error);
+      showMessage('error', t('error_updating_profile'));
     } finally {
       setUpdating(false);
     }

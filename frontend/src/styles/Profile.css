@@ -77,6 +77,12 @@
   cursor: not-allowed;
 }
 
+html[dir="rtl"] .profile-form input[type="tel"],
+html[dir="rtl"] .profile-form input[type="number"] {
+  direction: rtl;
+  text-align: right;
+}
+
 .profile-form textarea {
   grid-column: 1 / -1;
   resize: vertical;

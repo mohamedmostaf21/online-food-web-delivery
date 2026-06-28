@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trash2, Plus, Edit2, BarChart3, Users, Package } from 'lucide-react';
 import useStore from '../store/useStore';
@@ -16,6 +16,10 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showProductForm, setShowProductForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const inventorySectionRef = useRef(null);
+  const productsEndRef = useRef(null);
+  const scrollAfterLoadRef = useRef(false);
+  const updatedProductIdRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     nameAr: '',
@@ -23,6 +27,8 @@ export default function AdminDashboard() {
     descriptionAr: '',
     price: '',
     image: '',
+    category: 'mains',
+    categoryAr: '',
     availability: true,
     preparationTime: '',
     rating: '',
@@ -32,6 +38,20 @@ export default function AdminDashboard() {
     if (!token || user?.role !== 'admin') return;
     loadDashboard();
   }, [token, user]);
+
+  const scrollToNewProduct = () => {
+    requestAnimationFrame(() => {
+      if (updatedProductIdRef.current) {
+        const targetRow = document.querySelector(`[data-product-id="${updatedProductIdRef.current}"]`);
+        if (targetRow) {
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          updatedProductIdRef.current = null;
+          return;
+        }
+      }
+      productsEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  };
 
   const loadDashboard = async () => {
     try {
@@ -45,11 +65,21 @@ export default function AdminDashboard() {
       setOrders(ordersRes.data);
       setProducts(productsRes.data || []);
       setUsers(usersRes.data || []);
+      if (scrollAfterLoadRef.current) {
+        scrollAfterLoadRef.current = false;
+        scrollToNewProduct();
+      }
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const scrollToInventoryForm = () => {
+    requestAnimationFrame(() => {
+      inventorySectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   };
 
   const handleAddProduct = async () => {
@@ -59,8 +89,11 @@ export default function AdminDashboard() {
     }
     try {
       if (editingProduct) {
+        updatedProductIdRef.current = editingProduct._id;
+        scrollAfterLoadRef.current = true;
         await adminAPI.updateProduct(editingProduct._id, formData);
       } else {
+        scrollAfterLoadRef.current = true;
         await adminAPI.createProduct(formData);
       }
       setFormData({
@@ -70,11 +103,13 @@ export default function AdminDashboard() {
         descriptionAr: '',
         price: '',
         image: '',
+        category: 'mains',
+        categoryAr: '',
         availability: true,
         preparationTime: '',
         rating: '',
       });
-      setShowProductForm(false);
+      setShowProductForm(!editingProduct);
       setEditingProduct(null);
       loadDashboard();
     } catch (error) {
@@ -102,11 +137,14 @@ export default function AdminDashboard() {
       descriptionAr: product.descriptionAr,
       price: product.price,
       image: product.image,
+      category: product.category || 'mains',
+      categoryAr: product.categoryAr || '',
       availability: product.availability,
       preparationTime: product.preparationTime,
       rating: product.rating,
     });
     setShowProductForm(true);
+    scrollToInventoryForm();
   };
 
   if (loading) return <div className="loading">{t('loading')}</div>;
@@ -199,7 +237,7 @@ export default function AdminDashboard() {
       )}
 
       {activeTab === 'inventory' && (
-        <div className="inventory-section">
+        <div className="inventory-section" ref={inventorySectionRef}>
           <div className="section-header">
             <h3>{t('manage_products')}</h3>
             <button 
@@ -213,11 +251,14 @@ export default function AdminDashboard() {
                   descriptionAr: '',
                   price: '',
                   image: '',
+                  category: 'mains',
+                  categoryAr: '',
                   availability: true,
                   preparationTime: '',
                   rating: '',
                 });
-                setShowProductForm(!showProductForm);
+                setShowProductForm(true);
+                scrollToInventoryForm();
               }}
             >
               <Plus size={18} /> {t('add_product')}
@@ -270,6 +311,16 @@ export default function AdminDashboard() {
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                 />
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                >
+                  <option value="appetizers">Appetizers</option>
+                  <option value="mains">Mains</option>
+                  <option value="desserts">Desserts</option>
+                  <option value="beverages">Beverages</option>
+                  <option value="sides">Sides</option>
+                </select>
                 <input
                   type="number"
                   placeholder={t('rating')}
@@ -310,7 +361,7 @@ export default function AdminDashboard() {
               </thead>
               <tbody>
                 {products.map(product => (
-                  <tr key={product._id}>
+                  <tr key={product._id} data-product-id={product._id}>
                     <td>{product.name}</td>
                     <td>${product.price}</td>
                     <td><span className={`availability-badge ${product.availability ? 'available' : 'unavailable'}`}>
@@ -330,6 +381,7 @@ export default function AdminDashboard() {
                 ))}
               </tbody>
             </table>
+            <div ref={productsEndRef} />
           </div>
         </div>
       )}

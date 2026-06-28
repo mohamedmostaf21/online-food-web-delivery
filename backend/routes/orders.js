@@ -7,14 +7,19 @@ const { authMiddleware } = require('../middleware/auth');
 // Create order
 router.post('/', authMiddleware, async (req, res) => {
   try {
-    const { items, totalAmount, paymentMethod, deliveryAddress, specialInstructions } = req.body;
+    const { items, totalAmount, paymentMethod, deliveryAddress, specialInstructions, paymentDetails } = req.body;
+
+    if (!items?.length) {
+      return res.status(400).json({ message: 'Cart is empty' });
+    }
 
     const order = new Order({
       userId: req.userId,
       items,
       totalAmount,
       paymentMethod,
-      deliveryAddress,
+      paymentStatus: paymentMethod === 'online' ? 'completed' : 'pending',
+      deliveryAddress: deliveryAddress || 'Address not provided',
       specialInstructions,
       estimatedDeliveryTime: new Date(Date.now() + 30 * 60000), // 30 minutes from now
     });
@@ -22,6 +27,7 @@ router.post('/', authMiddleware, async (req, res) => {
     await order.save();
     res.status(201).json(order);
   } catch (error) {
+    console.error('Error creating order:', error);
     res.status(500).json({ message: 'Error creating order' });
   }
 });

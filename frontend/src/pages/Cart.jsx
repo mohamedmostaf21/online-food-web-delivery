@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreditCard, X, Lock, User, Calendar } from 'lucide-react';
 import useStore from '../store/useStore';
 import CartItem from '../components/CartItem';
+import { ordersAPI } from '../api/api';
 import '../styles/Cart.css';
 
 export default function Cart() {
@@ -14,6 +15,8 @@ export default function Cart() {
   const [loading, setLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [addressChoice, setAddressChoice] = useState('saved');
+  const [customAddress, setCustomAddress] = useState('');
 
   // Payment card details
   const [cardDetails, setCardDetails] = useState({
@@ -30,6 +33,8 @@ export default function Cart() {
     setMessage({ type, text });
     setTimeout(() => setMessage({ type: '', text: '' }), 3000);
   };
+
+  const hasSavedAddress = !!user?.address?.trim();
 
   const validatePaymentDetails = () => {
     if (!cardDetails.cardName.trim()) {
@@ -72,14 +77,25 @@ export default function Cart() {
     }
   };
 
+  const getDeliveryAddress = () => {
+    return addressChoice === 'custom'
+      ? customAddress.trim()
+      : user?.address?.trim();
+  };
+
   const handleCheckout = async () => {
     if (!token) {
       showMessage('error', 'Please login first');
       return;
     }
 
-    if (!user?.address) {
-      showMessage('error', 'Please update your address in profile');
+    if (addressChoice === 'saved' && !hasSavedAddress) {
+      showMessage('error', 'No saved address available. Please enter a delivery address for this order.');
+      return;
+    }
+
+    if (addressChoice === 'custom' && !customAddress.trim()) {
+      showMessage('error', 'Please enter a delivery address for this order');
       return;
     }
 
@@ -91,32 +107,25 @@ export default function Cart() {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          items: cart.map(item => ({
-            productId: item._id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-          })),
-          totalAmount: total,
-          paymentMethod,
-          deliveryAddress: user.address,
-          specialInstructions,
-          paymentDetails: paymentMethod === 'online' ? {
-            cardLast4: cardDetails.cardNumber.slice(-4),
-            cardName: cardDetails.cardName,
-          } : null,
-        }),
+      const response = await ordersAPI.create({
+        items: cart.map(item => ({
+          productId: item._id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        totalAmount: Number(total.toFixed(2)),
+        paymentMethod,
+        deliveryAddress: getDeliveryAddress() || 'Address not provided',
+        specialInstructions,
+        paymentDetails: paymentMethod === 'online' ? {
+          cardLast4: cardDetails.cardNumber.replace(/\s/g, '').slice(-4),
+          cardName: cardDetails.cardName.trim(),
+        } : null,
       });
 
-      if (response.ok) {
-        const order = await response.json();
+      if (response?.status === 201 || response?.status === 200) {
+        const order = response.data;
         clearCart();
         setShowPaymentModal(false);
         showMessage('success', `Order placed successfully! Order ID: ${order._id}`);
@@ -124,10 +133,10 @@ export default function Cart() {
           window.location.href = '/orders';
         }, 2000);
       } else {
-        showMessage('error', 'Error placing order');
+        showMessage('error', response?.data?.message || 'Error placing order');
       }
     } catch (error) {
-      showMessage('error', 'Error placing order. Please try again.');
+      showMessage('error', error?.response?.data?.message || 'Error placing order. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -183,6 +192,42 @@ export default function Cart() {
         </div>
 
         <div className="checkout-section">
+          <h3>{t('delivery_address')}</h3>
+          <div className="address-options">
+            <label className="address-option">
+              <input
+                type="radio"
+                name="addressChoice"
+                value="saved"
+                checked={addressChoice === 'saved'}
+                onChange={() => setAddressChoice('saved')}
+              />
+              <span>{t('use_saved_address')}</span>
+            </label>
+            <label className="address-option">
+              <input
+                type="radio"
+                name="addressChoice"
+                value="custom"
+                checked={addressChoice === 'custom'}
+                onChange={() => setAddressChoice('custom')}
+              />
+              <span>{t('enter_different_address')}</span>
+            </label>
+          </div>
+          {addressChoice === 'saved' ? (
+            <div className="saved-address-box">
+              {user?.address ? user.address : t('no_saved_address')}
+            </div>
+          ) : (
+            <textarea
+              placeholder={t('enter_delivery_address')}
+              value={customAddress}
+              onChange={(e) => setCustomAddress(e.target.value)}
+              rows="3"
+            />
+          )}
+
           <h3>{t('payment_method')}</h3>
           <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
             <option value="cash">{t('cash_on_delivery')}</option>

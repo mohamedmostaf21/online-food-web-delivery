@@ -207,6 +207,7 @@
   border-radius: 15px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 2px solid rgba(255, 107, 53, 0.1);
+  scroll-margin-top: 100px;
 }
 
 .section-header {
@@ -691,7 +692,20 @@
   .orders-table td {
     padding: 0.8rem;
     font-size: 0.9rem;
-    word-break: break-word;
+    word-break: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .orders-table th:nth-child(2),
+  .orders-table td:nth-child(2) {
+    min-width: 130px;
+  }
+
+  .orders-table th:nth-child(3),
+  .orders-table td:nth-child(3) {
+    min-width: 100px;
   }
   
   .status-badge {

@@ -5,20 +5,21 @@ const useStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || null,
   
-  setUser: (user) => {
+  setUser: (user, options = {}) => {
     set((state) => {
       if (user) {
-        // Save current cart to backup for this user on login
         const userEmail = user.email;
         const currentCart = state.cart;
-        
-        // Try to restore cart from backup if exists
-        const backupCart = localStorage.getItem(`cart_backup_${userEmail}`);
-        const cartToUse = backupCart ? JSON.parse(backupCart) : currentCart;
-        
+        let cartToUse = currentCart;
+
+        if (!options.preserveCart) {
+          const backupCart = localStorage.getItem(`cart_backup_${userEmail}`);
+          cartToUse = backupCart ? JSON.parse(backupCart) : currentCart;
+        }
+
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('cart', JSON.stringify(cartToUse));
-        
+
         return { user, cart: cartToUse };
       } else {
         // User is logging out - save current cart to backup and clear active cart

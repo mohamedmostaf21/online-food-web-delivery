@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/admin" element={<AdminRoute element={<AdminDashboard />} />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
