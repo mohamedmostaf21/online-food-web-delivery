@@ -2,6 +2,9 @@
 
 A complete full-stack web application for online food ordering with multi-language support (English & Arabic).
 
+## Try the Website:
+https://online-food-ordering.up.railway.app/
+
 ## Features ✨
 
 ### User Features
