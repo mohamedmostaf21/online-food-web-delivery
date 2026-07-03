@@ -1,5 +1,6 @@
 {
   "app_title": "Online Food Ordering",
+  "footer_text": "© {{year}} Online Food Web App. All rights reserved.",
   "menu": "Menu",
   "cart": "Cart",
   "orders": "Orders",
@@ -87,6 +88,7 @@
   "not_available": "Not Available",
   "min": "min",
   "hero_subtitle": "Delicious food delivered to your door in minutes. Order from hundreds of restaurants.",
+  "explore_delicious_selection": "Explore our delicious selection",
   "explore_menu": "Explore Menu",
   "why_choose_us": "Why Choose Us?",
   "why_choose_us_desc": "Experience the best food ordering service with quality, speed, and reliability.",

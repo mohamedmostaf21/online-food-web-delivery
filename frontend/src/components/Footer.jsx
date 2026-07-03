@@ -1,9 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 const Footer = () => {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
 
   return (
     <footer className="app-footer">
-      <p>© {year} Online Food Web App. All rights reserved.</p>
+      <p>{t('footer_text', { year })}</p>
     </footer>
   );
 };
