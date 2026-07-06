@@ -68,6 +68,7 @@ online_food__web_app/
     │   ├── components/
     │   │   ├── Navbar.jsx
     │   │   ├── ProductCard.jsx
+    │   │   ├── Footer.jsx
     │   │   └── CartItem.jsx
     │   ├── pages/
     │   │   ├── Home.jsx
