@@ -1,0 +1,91 @@
+/* Mobile LTR/RTL header alignment overrides
+   Keeps logo and menu button in the top row and stacks the nav list below.
+   Uses flexbox order for clean LTR/RTL handling. */
+
+@media (max-width: 1299px) {
+  /* Both directions use the same flex-wrap: wrap; flex-direction: row (default) */
+  
+  /* LTR: logo (order 1) on left, menu button (order 2) on right */
+  html[dir="ltr"] .navbar-logo-wrapper {
+    order: 1 !important;
+    width: auto;
+    max-width: 60%;
+    flex: 0 1 auto;
+  }
+
+  html[dir="ltr"] .mobile-menu-btn {
+    order: 2 !important;
+    margin-inline-start: auto !important;
+    margin-inline-end: 0 !important;
+  }
+
+  html[dir="ltr"] .nav-menu {
+    order: 3 !important;
+    width: 100% !important;
+  }
+
+  html[dir="ltr"] .nav-actions {
+    order: 4 !important;
+    width: 100% !important;
+  }
+
+  /* RTL: logo/title on right, menu button on left (visually flipped) */
+  html[dir="rtl"] .navbar-logo-wrapper {
+    order: 1 !important;
+    width: auto;
+    max-width: auto;
+    flex: 0 0 auto;
+    padding-inline-start: 0.9rem;
+    padding-inline-end: 0;
+    margin-inline-end: 0;
+    margin-inline-start: 0;
+  }
+
+  html[dir="rtl"] .navbar-logo {
+    padding-inline-end: 0.5rem;
+    padding-inline-start: 0;
+    text-align: right;
+  }
+
+  html[dir="rtl"] .mobile-menu-btn {
+    order: 2 !important;
+    margin-inline-start: auto !important;
+    margin-inline-end: 0 !important;
+  }
+
+  html[dir="rtl"] .nav-menu {
+    order: 3 !important;
+    width: 100% !important;
+    text-align: right;
+    direction: rtl;
+  }
+
+  html[dir="rtl"] .nav-menu .nav-link {
+    text-align: center;
+  }
+
+  html[dir="rtl"] .nav-actions {
+    order: 4 !important;
+    width: 100% !important;
+  }
+
+  html[dir="rtl"] .user-menu,
+  html[dir="rtl"] .auth-links {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  html[dir="rtl"] .profile-link,
+  html[dir="rtl"] .logout-btn,
+  html[dir="rtl"] .cart-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Ensure mobile nav items center properly in RTL */
+  html[dir="rtl"] .btn-link {
+    width: 100%;
+    text-align: center;
+  }
+}

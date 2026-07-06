@@ -28,8 +28,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* Treat tablets as mobile: adjust font-size for <=1024 */
   @media (max-width: 1024px) {
     font-size: 16px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+  }
+
+  /* Disable hero animations on tablets/phones to reduce lag */
+  @media (max-width: 1024px) {
+    .hero,
+    .hero::before,
+    .hero::after {
+      animation: none !important;
+      transition: none !important;
+      background-attachment: scroll !important;
+      will-change: auto !important;
+    }
   }
 }
 
@@ -130,4 +147,24 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* Responsive helpers: ensure media scales and provide a common container */
+img, picture, video, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Small utility to avoid overly wide fixed buttons on very small screens */
+.btn-add-cart, .btn-link {
+  min-width: 0;
 }

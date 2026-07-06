@@ -104,7 +104,35 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
+/* Tablet Responsiveness */
+@media (max-width: 1024px) {
+  .cart-item {
+    grid-template-columns: 75px minmax(0, 1fr) auto;
+    gap: 0.95rem;
+    padding: 1.1rem;
+  }
+
+  .cart-item img {
+    width: 75px;
+    height: 75px;
+  }
+
+  .item-details h4 {
+    font-size: 0.95rem;
+  }
+
+  .quantity-control button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .item-total {
+    min-width: 90px;
+    font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 1024px) {
   .cart-item {
     grid-template-columns: 72px minmax(0, 1fr);
     gap: 0.9rem;

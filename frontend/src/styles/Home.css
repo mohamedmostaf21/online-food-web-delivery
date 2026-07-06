@@ -42,7 +42,7 @@
   background: radial-gradient(circle, rgba(255, 215, 0, 0.22) 0%, rgba(255, 140, 0, 0.1) 35%, transparent 72%);
   border-radius: 50%;
   z-index: 0;
-  animation: float 6s ease-in-out infinite;
+  animation: none;
   pointer-events: none;
 }
 
@@ -61,7 +61,7 @@
   background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, rgba(255, 120, 0, 0.08) 40%, transparent 72%);
   border-radius: 50%;
   z-index: 0;
-  animation: float 8s ease-in-out infinite;
+  animation: none;
   pointer-events: none;
 }
 
@@ -70,11 +70,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5rem 1.25rem;
+  padding: calc(5rem + 85px) 1.25rem 5rem;
   min-height: 620px;
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  margin-top: 0;
   background-image:
     linear-gradient(180deg, rgba(18, 10, 7, 0.82), rgba(39, 19, 13, 0.9)),
     url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80");
@@ -82,6 +83,13 @@
   background-position: center 32%;
   background-blend-mode: multiply;
   box-shadow: inset 0 -90px 160px rgba(0, 0, 0, 0.38);
+}
+
+/* Keep the lifted hero effect only on large screens */
+@media (min-width: 1200px) {
+  .hero {
+    margin-top: -85px;
+  }
 }
 
 .hero-content {
@@ -95,11 +103,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(18px);
-  background: linear-gradient(180deg, rgba(207, 103, 33, 0.95), rgba(171, 54, 20, 0.98));
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px);
+  background: linear-gradient(180deg, rgba(207, 103, 33, 0.72), rgba(171, 54, 20, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 70px;
-  box-shadow: 0 40px 140px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 40px 140px rgba(0, 0, 0, 0.32);
 }
 
 .hero-actions {
@@ -304,11 +312,13 @@
 /* ========== PREMIUM FEATURES SECTION ========== */
 .featured-dishes {
   background-image:
-    linear-gradient(180deg, rgba(16, 22, 38, 0.92), rgba(7, 11, 19, 0.96)),
-    url("https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1400&q=80");
+    radial-gradient(circle at top left, rgba(255, 107, 53, 0.14), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 204, 118, 0.10), transparent 34%),
+    linear-gradient(180deg, rgba(12, 14, 22, 0.96), rgba(20, 24, 38, 0.98));
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  border: 1px solid rgba(255, 107, 53, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 24px 70px rgba(0, 0, 0, 0.28);
   padding: 5rem 2rem;
   position: relative;
   overflow: hidden;
@@ -317,25 +327,26 @@
 .featured-dishes::before {
   content: '';
   position: absolute;
-  top: 10%;
-  left: 2%;
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(255, 180, 80, 0.18), transparent 70%);
-  border-radius: 50%;
-  z-index: 0;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 107, 53, 0.12), transparent 22%),
+              radial-gradient(circle at bottom right, rgba(255, 204, 118, 0.08), transparent 30%);
+  pointer-events: none;
 }
 
-.featured-dishes::after {
+.premium-features {
+  background: linear-gradient(180deg, rgba(9, 10, 16, 0.98), rgba(20, 20, 30, 0.98));
+  padding: 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-features::before {
   content: '';
   position: absolute;
-  bottom: 5%;
-  right: 5%;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(240, 100, 60, 0.12), transparent 72%);
-  border-radius: 50%;
-  z-index: 0;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 179, 71, 0.18), transparent 32%),
+              radial-gradient(circle at bottom right, rgba(255, 92, 46, 0.16), transparent 36%);
+  pointer-events: none;
 }
 
 .featured-header {
@@ -801,8 +812,6 @@
 
 .cta {
   background: linear-gradient(135deg, rgba(15, 96, 56, 0.94), rgba(14, 60, 32, 0.98));
-  background-size: 240% 240%;
-  animation: gradientShift 12s ease infinite;
   color: white;
   padding: 5rem 2rem;
   text-align: center;
@@ -1197,12 +1206,13 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .hero {
-    padding: 3rem 1rem;
-    min-height: 420px;
+    padding: calc(3rem + 115px) 1rem 3rem;
+    min-height: 520px;
     display: grid;
     place-items: center;
+    margin-top: 0;
   }
 
   .hero-actions {
@@ -1274,8 +1284,9 @@
 
 @media (max-width: 480px) {
   .hero {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 2.5rem;
     min-height: 360px;
+    margin-top: 0;
   }
 
   .hero-content {

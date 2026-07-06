@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import React from 'react';
 import useStore from '../store/useStore';
 import { ShoppingCart, Menu, X, LogOut, Settings, LayoutDashboard } from 'lucide-react';
 import '../styles/Navbar.css';
+import '../styles/_navbar-mobile-rtl-overrides.css';
 
 export default function Navbar() {
     const { t, i18n } = useTranslation();
@@ -48,30 +49,32 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <div className={`navbar-container ${menuOpen ? 'menu-open' : ''}`}>
-                <Link to="/" className="navbar-logo">
-                    🍕 {t('app_title')}
-                </Link>
-
+                <div className="navbar-logo-wrapper">
+                    <Link to="/" className="navbar-logo">
+                        🍕 {t('app_title')}
+                    </Link>
+                </div>
+                
                 <button
                     type="button"
                     className="mobile-menu-btn"
                     onClick={toggleMenu}
                     aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 >
-                    {menuOpen ? <X size={22} /> : <Menu size={22} />}
+                    {menuOpen ? <X size={16} /> : <Menu size={16} />}
                 </button>
 
                 <div className={`nav-menu ${menuOpen ? 'open' : ''}`}>
-                    <Link to="/" className="nav-link" onClick={closeMenu}>{t('home')}</Link>
-                    <Link to="/menu" className="nav-link" onClick={closeMenu}>{t('menu')}</Link>
+                    <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={closeMenu}>{t('home')}</NavLink>
+                    <NavLink to="/menu" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={closeMenu}>{t('menu')}</NavLink>
 
                     {token && (
                         <>
-                            <Link to="/orders" className="nav-link" onClick={closeMenu}>{t('my_orders')}</Link>
+                            <NavLink to="/orders" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={closeMenu}>{t('my_orders')}</NavLink>
                             {user?.role === 'admin' && (
-                                <Link to="/admin" className="nav-link admin-link" onClick={closeMenu}>
+                                <NavLink to="/admin" className={({ isActive }) => `nav-link admin-link${isActive ? ' active' : ''}`} onClick={closeMenu}>
                                     <LayoutDashboard size={20} /> {t('admin')}
-                                </Link>
+                                </NavLink>
                             )}
                         </>
                     )}
@@ -81,17 +84,18 @@ export default function Navbar() {
                     {token ? (
                         <div className="user-menu">
                             <Link to="/profile" className="profile-link" onClick={closeMenu}>
-                                {user?.name}
+                                <span className="profile-avatar">{(user?.name && user.name.charAt(0))?.toUpperCase() || 'U'}</span>
+                                <span className="profile-name">{user?.name}</span>
                             </Link>
-                            <button onClick={handleLogout} className="logout-btn">
+                            <button onClick={handleLogout} className="logout-btn" title={t('logout')}>
                                 <LogOut size={20} />
                             </button>
                         </div>
 
                     ) : (
                         <div className="auth-links">
-                            <Link to="/login" className="btn-link" onClick={closeMenu}>{t('login')}</Link>
-                            <Link to="/register" className="btn-link btn-primary" onClick={closeMenu}>{t('register')}</Link>
+                            <Link to="/login" className="btn-link btn-primary" onClick={closeMenu}>{t('login')}</Link>
+                            <Link to="/register" className="btn-link" onClick={closeMenu}>{t('register')}</Link>
                         </div>
                     )}
 
@@ -100,7 +104,7 @@ export default function Navbar() {
                     </button>
 
                     <Link to="/cart" className="cart-link" onClick={closeMenu}>
-                        <ShoppingCart size={24} />
+                        <ShoppingCart size={20} />
                         {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
                     </Link>
                 </div>
