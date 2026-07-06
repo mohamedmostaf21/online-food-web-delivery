@@ -48,6 +48,12 @@ export const adminAPI = {
   updateProduct: (id, data) => api.put(`/products/${id}`, data),
   deleteProduct: (id) => api.delete(`/products/${id}`),
   getUsers: () => api.get('/admin/users'),
+  deleteOrder: (id) => api.delete(`/admin/orders/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  }),
+  deleteUser: (id) => api.delete(`/admin/users/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  }),
 };
 
 export const usersAPI = {

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.6.1",
     "axios": "^1.6.2",
     "i18next": "^23.7.6",
     "lucide-react": "^1.21.0",
@@ -17,6 +18,7 @@
     "react-dom": "^19.2.7",
     "react-i18next": "^13.5.0",
     "react-router-dom": "^6.20.0",
+    "three": "^0.185.1",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

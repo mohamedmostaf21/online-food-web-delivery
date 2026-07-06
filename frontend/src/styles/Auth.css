@@ -7,11 +7,11 @@
 }
 
 .auth-card {
-  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  background: var(--card-bg);
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 0 40px rgba(231, 76, 60, 0.2), 0 8px 25px rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(231, 76, 60, 0.3);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.04);
   position: relative;
   overflow: hidden;
 }
@@ -86,8 +86,8 @@ html[dir="rtl"] .auth-card input[type="number"] {
 
 .auth-card button {
   padding: 1rem;
-  background: linear-gradient(135deg, #e74c3c 0%, #d63828 100%);
-  color: white;
+  background: var(--accent-gradient);
+  color: #111;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -96,14 +96,14 @@ html[dir="rtl"] .auth-card input[type="number"] {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 20px rgba(231, 76, 60, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(255,107,53,0.18);
   position: relative;
   z-index: 1;
 }
 
 .auth-card button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d63828 0%, #c0392b 100%);
-  box-shadow: 0 0 30px rgba(231, 76, 60, 0.6), 0 8px 25px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.03);
+  box-shadow: 0 14px 36px rgba(255,107,53,0.22);
   transform: translateY(-2px);
 }
 
@@ -114,12 +114,12 @@ html[dir="rtl"] .auth-card input[type="number"] {
 }
 
 .error-message {
-  background: linear-gradient(135deg, rgba(231, 76, 60, 0.15) 0%, rgba(192, 57, 43, 0.1) 100%);
-  color: #ff9999;
+  background: rgba(231,76,60,0.08);
+  color: #ffb3b3;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
-  border-left: 4px solid #e74c3c;
+  border-left: 4px solid var(--accent);
   position: relative;
   z-index: 1;
   font-weight: 600;

@@ -1,11 +1,13 @@
 /* Profile Styles */
 .profile-container {
   max-width: 900px;
+  width: min(100%, 900px);
   margin: 0 auto;
   padding: 3rem 2rem;
   min-height: calc(100vh - 100px);
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  background: var(--card-bg);
   border-radius: 12px;
+  box-sizing: border-box;
 }
 
 .profile-container h2 {
@@ -20,14 +22,14 @@
 }
 
 .profile-form {
-  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-  padding: 3rem;
+  background: rgba(255,255,255,0.02);
+  padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 40px rgba(231, 76, 60, 0.2), 0 8px 25px rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(231, 76, 60, 0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.04);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 1.2rem;
   position: relative;
   overflow: hidden;
 }
@@ -92,15 +94,15 @@ html[dir="rtl"] .profile-form input[type="number"] {
 .profile-form button {
   grid-column: 1 / -1;
   padding: 1.2rem;
-  background: linear-gradient(135deg, #e74c3c 0%, #d63828 100%);
-  color: white;
+  background: var(--accent-gradient);
+  color: #111;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(231, 76, 60, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(255,107,53,0.18);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 1rem;
@@ -109,8 +111,8 @@ html[dir="rtl"] .profile-form input[type="number"] {
 }
 
 .profile-form button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d63828 0%, #c0392b 100%);
-  box-shadow: 0 0 30px rgba(231, 76, 60, 0.6), 0 8px 25px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.03);
+  box-shadow: 0 14px 36px rgba(255,107,53,0.22);
   transform: translateY(-2px);
 }
 

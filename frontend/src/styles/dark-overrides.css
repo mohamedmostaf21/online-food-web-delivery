@@ -1,0 +1,127 @@
+/* Dark theme overrides to remove all light cards and make site uniform dark */
+
+:root {
+    --card-surface: linear-gradient(180deg, rgba(12, 14, 22, 0.98), rgba(16, 18, 28, 0.98));
+    --card-border: rgba(255, 255, 255, 0.03);
+    --muted-text: rgba(255, 255, 255, 0.75);
+}
+
+/* Generic card override */
+.stat-card,
+.orders-table,
+.products-table,
+.product-form,
+.inventory-section,
+.admin-dashboard,
+.products-table table,
+.orders-table table,
+.products-table th,
+.products-table td,
+.orders-table th,
+.orders-table td,
+.product-form,
+.checkbox,
+.product-row,
+.stats-grid .stat-card {
+    background: var(--card-surface) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--card-border) !important;
+    box-shadow: none !important;
+}
+
+/* Remove bright gradients and overlays */
+.stat-card::before,
+.orders-table::before,
+.products-table::before,
+.product-form::before {
+    display: none !important;
+}
+
+/* Table headers and badges */
+.products-table th,
+.orders-table th {
+    background: transparent !important;
+    color: var(--text-h) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.status-badge,
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.03) !important;
+    color: var(--text) !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Keep availability badges colored (green/red) even in dark overrides */
+.availability-badge.available {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(39, 174, 96, 0.6) !important;
+    box-shadow: 0 6px 18px rgba(39, 174, 96, 0.18) !important;
+}
+.availability-badge.unavailable {
+    background: linear-gradient(135deg, #ff6b35 0%, #f44336 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(244, 67, 54, 0.6) !important;
+    box-shadow: 0 6px 18px rgba(244, 67, 54, 0.18) !important;
+}
+
+/* Inputs and form controls */
+.product-form input,
+input,
+textarea,
+select {
+    background: rgba(255, 255, 255, 0.02) !important;
+    color: var(--text) !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Tabs */
+.admin-tabs,
+.tab,
+.tab.active {
+    background: rgba(255, 255, 255, 0.02) !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    color: var(--text) !important;
+}
+
+/* Make badges and values more visible on dark */
+.stat-value,
+.stat-card h3,
+.section-header h3,
+.admin-dashboard h2 {
+    color: var(--text-h) !important;
+}
+
+/* Ensure scrollable areas keep dark bg */
+.products-table tbody tr,
+.orders-table tbody tr {
+    background: transparent !important;
+}
+
+/* Fallback for any remaining white backgrounds */
+*[style*="background: linear-gradient"],
+*[style*="background: #fff"],
+*[style*="background: white"] {
+    background: var(--card-surface) !important;
+    color: var(--text) !important;
+}
+
+/* Make sure overlays (like modal or cards) are dark */
+.modal,
+.overlay,
+.card {
+    background: var(--card-surface) !important;
+    color: var(--text) !important;
+}
+
+/* Reduce contrast of decorative highlights */
+.stat-card:hover,
+.products-table tbody tr:hover,
+.orders-table tbody tr:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+}

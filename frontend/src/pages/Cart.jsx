@@ -90,12 +90,12 @@ export default function Cart() {
     }
 
     if (addressChoice === 'saved' && !hasSavedAddress) {
-      showMessage('error', 'No saved address available. Please enter a delivery address for this order.');
+      showMessage('error', t('no_saved_address_warning'));
       return;
     }
 
     if (addressChoice === 'custom' && !customAddress.trim()) {
-      showMessage('error', 'Please enter a delivery address for this order');
+      showMessage('error', t('enter_delivery_address'));
       return;
     }
 
