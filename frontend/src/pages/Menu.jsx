@@ -17,7 +17,7 @@ export default function Menu() {
 
   const fetchProducts = async () => {
     try {
-      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
       const url = selectedCategory 
         ? `${baseUrl}/products/category/${selectedCategory}`
         : `${baseUrl}/products`;
