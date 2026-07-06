@@ -64,36 +64,35 @@ online_food__web_app/
 │   └── package.json
 │
 └── frontend/
-    └── my-react-app/
-        ├── src/
-        │   ├── components/
-        │   │   ├── Navbar.jsx
-        │   │   ├── ProductCard.jsx
-        │   │   └── CartItem.jsx
-        │   ├── pages/
-        │   │   ├── Home.jsx
-        │   │   ├── Menu.jsx
-        │   │   ├── Cart.jsx
-        │   │   ├── Login.jsx
-        │   │   ├── Register.jsx
-        │   │   ├── Orders.jsx
-        │   │   ├── Profile.jsx
-        │   │   └── AdminDashboard.jsx
-        │   ├── i18n/
-        │   │   ├── config.js
-        │   │   └── locales/
-        │   │       ├── en.json
-        │   │       └── ar.json
-        │   ├── store/
-        │   │   └── useStore.js
-        │   ├── api/
-        │   │   └── api.js
-        │   ├── styles/
-        │   │   ├── *.css (component styles)
-        │   ├── App.jsx
-        │   └── main.jsx
-        ├── package.json
-        └── vite.config.js
+    ├── src/
+    │   ├── components/
+    │   │   ├── Navbar.jsx
+    │   │   ├── ProductCard.jsx
+    │   │   └── CartItem.jsx
+    │   ├── pages/
+    │   │   ├── Home.jsx
+    │   │   ├── Menu.jsx
+    │   │   ├── Cart.jsx
+    │   │   ├── Login.jsx
+    │   │   ├── Register.jsx
+    │   │   ├── Orders.jsx
+    │   │   ├── Profile.jsx
+    │   │   └── AdminDashboard.jsx
+    │   ├── i18n/
+    │   │   ├── config.js
+    │   │   └── locales/
+    │   │       ├── en.json
+    │   │       └── ar.json
+    │   ├── store/
+    │   │   └── useStore.js
+    │   ├── api/
+    │   │   └── api.js
+    │   ├── styles/
+    │   │   ├── *.css (component styles)
+    │   ├── App.jsx
+    │   └── main.jsx
+    ├── package.json
+    └── vite.config.js
 ```
 
 ## Setup Instructions 📝
