@@ -6,6 +6,10 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Cart from './pages/Cart';
+import Contact from './pages/Contact';
+import Opinion from './pages/Opinion';
+import Offers from './pages/Offers';
+import Deal from './pages/Deal';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Orders from './pages/Orders';
@@ -41,6 +45,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/opinion" element={<Opinion />} />
+            <Route path="/offers" element={<Offers />} />
+            <Route path="/deal" element={<Deal />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

@@ -1,0 +1,50 @@
+name: JSON Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Find and validate all JSON files
+      run: |
+        echo "🔍 Scanning for JSON files..."
+        JSON_FILES=$(find . -type f -name "*.json" -not -path "./node_modules/*" -not -path "./.git/*")
+        
+        echo "Found JSON files:"
+        echo "$JSON_FILES"
+        
+        ERRORS=0
+        for file in $JSON_FILES; do
+          echo ""
+          echo "Validating: $file"
+          if python3 -m json.tool "$file" > /dev/null 2>&1; then
+            echo "  ✓ Valid JSON"
+          else
+            echo "  ✗ Invalid JSON syntax"
+            python3 -m json.tool "$file" 2>&1
+            ERRORS=$((ERRORS + 1))
+          fi
+        done
+        
+        echo ""
+        echo "========================================="
+        if [ $ERRORS -eq 0 ]; then
+          echo "✓ All JSON files are valid"
+          exit 0
+        else
+          echo "❌ $ERRORS JSON file(s) have syntax errors"
+          exit 1
+        fi

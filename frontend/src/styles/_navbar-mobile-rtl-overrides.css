@@ -88,4 +88,9 @@
     width: 100%;
     text-align: center;
   }
+
+  html[dir="rtl"] .btn-contact {
+    width: 100%;
+    text-align: center;
+  }
 }

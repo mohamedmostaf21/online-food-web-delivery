@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
+const fs = require('fs');
 
 // Load environment variables
 dotenv.config();
@@ -14,8 +15,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files with absolute path references
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Serve static files only when explicitly enabled and the frontend build exists
+const frontendDist = path.join(__dirname, '../frontend/dist');
+const frontendIndex = path.join(frontendDist, 'index.html');
+const frontendBuildExists = fs.existsSync(frontendDist) && fs.existsSync(frontendIndex);
+const serveFrontend = process.env.SERVE_FRONTEND === 'true' && frontendBuildExists;
+if (serveFrontend) {
+    console.log('Serving frontend from', frontendDist);
+    app.use(express.static(frontendDist));
+} else if (process.env.SERVE_FRONTEND === 'true' && !frontendBuildExists) {
+    console.warn('ENV SERVE_FRONTEND=true but frontend build not found at', frontendDist);
+}
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://mongo:27017/food-ordering')
@@ -35,18 +45,29 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'Server is running' });
 });
 
-// Fallback route for React Router - serve index.html for all non-API routes
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
+// Fallback route for React Router - serve index.html only when enabled and build exists
+if (serveFrontend) {
+    app.get('*', (req, res) => {
+        res.sendFile(frontendIndex);
+    });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: 'Something went wrong!' });
+    const response = { message: err.message || 'Something went wrong!' };
+    if (process.env.NODE_ENV !== 'production') {
+        response.stack = err.stack;
+    }
+    res.status(500).json(response);
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;

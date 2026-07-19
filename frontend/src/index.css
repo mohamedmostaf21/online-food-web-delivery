@@ -37,9 +37,8 @@
     font-size: 15px;
   }
 
-  /* Disable hero animations on tablets/phones to reduce lag */
+  /* Reduce background animation on tablets/phones but preserve slide motion */
   @media (max-width: 1024px) {
-    .hero,
     .hero::before,
     .hero::after {
       animation: none !important;

@@ -1,93 +1,48 @@
 const express = require('express');
 const router = express.Router();
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
-const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
-// Get dashboard stats
+// Get admin statistics
 router.get('/stats', authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const totalOrders = await Order.countDocuments();
-    const totalUsers = await User.countDocuments({ role: 'user' });
+    const totalUsers = await User.countDocuments();
     const totalProducts = await Product.countDocuments();
-    const totalRevenue = (await Order.aggregate([
-      { $match: { orderStatus: 'delivered' } },
-      { $group: { _id: null, total: { $sum: '$totalAmount' } } },
-    ]))[0]?.total || 0;
-
-    const recentOrders = await Order.find()
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .populate('userId', 'name email')
-      .populate('items.productId', 'name price');
+    const totalRevenue = await Order.aggregate([
+      { $group: { _id: null, total: { $sum: '$totalPrice' } } }
+    ]);
 
     res.json({
       totalOrders,
       totalUsers,
       totalProducts,
-      totalRevenue,
-      recentOrders,
+      totalRevenue: totalRevenue[0]?.total || 0,
     });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching stats' });
   }
 });
 
-// Get all orders (Admin)
+// Get all orders
 router.get('/orders', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const orders = await Order.find()
-      .populate('userId', 'name email phone address')
-      .populate('items.productId')
-      .sort({ createdAt: -1 });
+    const orders = await Order.find().populate('userId', 'name email phone address');
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders' });
   }
 });
 
-// Get all users (Admin)
+// Get all users
 router.get('/users', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const users = await User.find({ role: 'user' }).select('-password');
+    const users = await User.find().select('-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching users' });
-  }
-});
-
-// Delete an order (Admin)
-router.delete('/orders/:id', authMiddleware, adminMiddleware, async (req, res) => {
-  try {
-    console.log('Admin delete order request:', { byUserId: req.userId, byRole: req.userRole, targetId: req.params.id });
-    const order = await Order.findByIdAndDelete(req.params.id);
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-    res.json({ message: 'Order deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting order:', error);
-    res.status(500).json({ message: error.message || 'Error deleting order' });
-  }
-});
-
-// Delete a user (Admin)
-router.delete('/users/:id', authMiddleware, adminMiddleware, async (req, res) => {
-  try {
-    console.log('Admin delete user request:', { byUserId: req.userId, byRole: req.userRole, targetId: req.params.id });
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    if (user.role === 'admin') {
-      return res.status(403).json({ message: 'Cannot delete admin user' });
-    }
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'User deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting user:', error);
-    res.status(500).json({ message: error.message || 'Error deleting user' });
   }
 });
 

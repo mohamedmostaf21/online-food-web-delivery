@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import React from 'react';
 import useStore from '../store/useStore';
-import { ShoppingCart, Menu, X, LogOut, Settings, LayoutDashboard } from 'lucide-react';
+import { ShoppingCart, Menu, X, LogOut, Settings, LayoutDashboard, ChefHat } from 'lucide-react';
 import '../styles/Navbar.css';
 import '../styles/_navbar-mobile-rtl-overrides.css';
 
@@ -51,7 +51,8 @@ export default function Navbar() {
             <div className={`navbar-container ${menuOpen ? 'menu-open' : ''}`}>
                 <div className="navbar-logo-wrapper">
                     <Link to="/" className="navbar-logo">
-                        🍕 {t('app_title')}
+                        <ChefHat size={40} className="chef-icon" />
+                        {t('app_title')}
                     </Link>
                 </div>
                 

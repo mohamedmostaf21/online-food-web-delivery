@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Edit2, BarChart3, Users, Package } from 'lucide-react';
 import useStore from '../store/useStore';
 import { adminAPI } from '../api/api';
@@ -8,6 +9,7 @@ import '../styles/AdminDashboard.css';
 export default function AdminDashboard() {
     const { t } = useTranslation();
     const { user, token } = useStore();
+    const navigate = useNavigate();
     const [stats, setStats] = useState(null);
     const [orders, setOrders] = useState([]);
     const [products, setProducts] = useState([]);
@@ -38,11 +40,21 @@ export default function AdminDashboard() {
     });
 
     useEffect(() => {
-        if (!token || user?.role !== 'admin') return;
+        // Enforce admin role check with redirect
+        if (!token || !user) {
+            navigate('/login');
+            return;
+        }
+        if (user.role !== 'admin') {
+            console.warn('Non-admin user attempted to access admin dashboard');
+            navigate('/');
+            return;
+        }
         loadDashboard();
-    }, [token, user]);
+    }, [token, user, navigate]);
 
-    const scrollToNewProduct = () => {
+    const handleApiError = (error) => {
+
         requestAnimationFrame(() => {
             if (updatedProductIdRef.current) {
                 const targetRow = document.querySelector(`[data-product-id="${updatedProductIdRef.current}"]`);
@@ -250,12 +262,13 @@ export default function AdminDashboard() {
                         <p className="stat-value">${stats.totalRevenue}</p>
                     </div>
                     <div className="stat-card">
-                        <h3>{t('total_users')}</h3>
-                        <p className="stat-value">{stats.totalUsers}</p>
-                    </div>
-                    <div className="stat-card">
+
                         <h3>{t('total_products')}</h3>
                         <p className="stat-value">{stats.totalProducts}</p>
+                    </div>
+                    <div className="stat-card">
+                        <h3>{t('total_messages')}</h3>
+                        <p className="stat-value">{stats.totalMessages || 0}</p>
                     </div>
                 </div>
             )}
@@ -509,6 +522,7 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             )}
+
 
             {activeTab === 'users' && (
                 <div className="users-section">

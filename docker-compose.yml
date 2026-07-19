@@ -1,13 +1,16 @@
 services:
   # Backend Service Configuration
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: online_food_backend
     ports:
-      - "5000:5000"  # Maps port 5000 of your machine to port 5000 of the container
+      - "5001:5001"  # Maps port 5001 of your machine to port 5001 of the container
     environment:
       - NODE_ENV=development
       - MONGO_URI=${MONGO_URI:-mongodb://mongo:27017/online_food}
+      - PORT=5001
     networks:
       - food_network
     depends_on:
@@ -24,13 +27,15 @@ services:
 
   # Frontend Service Configuration
   frontend:
-    build: ./frontend/my-react-app
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: online_food_frontend
     ports:
       - "5173:5173"  # Maps port 5173 of your machine to port 5173 of the container
     environment:
       - CHOKIDAR_USEPOLLING=true  # Helps React hot-reload work smoothly inside Docker containers
-      - VITE_API_URL=http://backend:5000
+      - VITE_API_URL=http://backend:5001/api
     depends_on:
       - backend  # Ensures the backend spins up before the frontend starts
     networks:
@@ -38,12 +43,12 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./frontend/my-react-app
+          path: ./frontend
           target: /usr/src/app
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./frontend/my-react-app/package.json
+          path: ./frontend/package.json
 
   # MongoDB Service
   mongo:

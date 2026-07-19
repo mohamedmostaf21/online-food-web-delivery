@@ -11,6 +11,9 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const productName = language === 'ar' ? product.nameAr : product.name;
   const productDesc = language === 'ar' ? product.descriptionAr : product.description;
+  const isSale = product.onSale ||
+    String(product.name || '').toLowerCase().includes('burger') ||
+    String(product.nameAr || '').includes('برجر');
   const [showMessage, setShowMessage] = useState(false);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
 
@@ -38,7 +41,15 @@ export default function ProductCard({ product }) {
         </div>
       )}
       <div className="product-image">
-        <img src={product.image || 'https://via.placeholder.com/200'} alt={productName} />
+        <img 
+          src={product.image || 'https://via.placeholder.com/220x220?text=Food'} 
+          alt={productName}
+          loading="lazy"
+          decoding="async"
+        />
+        {isSale && (
+          <div className="sale-chip">{t('off_50')}</div>
+        )}
         {product.rating && (
           <div className="product-rating">
             ⭐ {product.rating}

@@ -14,6 +14,25 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Handle authorization errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Catch 403 Forbidden (authorization failed)
+    if (error.response?.status === 403) {
+      console.warn('Authorization failed (403): ', error.response.data?.message);
+      // Clear admin session on auth failure
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      // Redirect to home page
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),

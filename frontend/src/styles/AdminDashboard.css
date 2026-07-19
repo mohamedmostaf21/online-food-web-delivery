@@ -373,7 +373,7 @@ html[dir="rtl"] .users-table td,
 .form-group label {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #f7f1e1;
+  color: #000000;
 }
 
 .product-form input,
@@ -1035,7 +1035,9 @@ html[dir="rtl"] .role-badge,
   .users-table th,
   .users-table td,
   .products-table th,
-  .products-table td {
+  .products-table td,
+  .messages-table th,
+  .messages-table td {
     padding: 0.6rem;
     font-size: 0.8rem;
     white-space: nowrap;
@@ -1053,13 +1055,15 @@ html[dir="rtl"] .role-badge,
   /* Convert table rows into stacked blocks with labels */
   .orders-table thead,
   .products-table thead,
-  .users-table thead {
+  .users-table thead,
+  .messages-table thead {
     display: none;
   }
 
   .orders-table tbody tr,
   .products-table tbody tr,
-  .users-table tbody tr {
+  .users-table tbody tr,
+  .messages-table tbody tr {
     display: block;
     margin-bottom: 1rem;
     border-radius: 12px;
@@ -1070,7 +1074,8 @@ html[dir="rtl"] .role-badge,
 
   .orders-table td,
   .products-table td,
-  .users-table td {
+  .users-table td,
+  .messages-table td {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1083,20 +1088,23 @@ html[dir="rtl"] .role-badge,
   /* Ensure flex items can shrink and not overflow their container */
   .orders-table td,
   .products-table td,
-  .users-table td {
+  .users-table td,
+  .messages-table td {
     min-width: 0;
     flex-wrap: nowrap;
   }
 
   .orders-table td *,
   .products-table td *,
-  .users-table td * {
+  .users-table td *,
+  .messages-table td * {
     min-width: 0;
   }
 
   .orders-table td::before,
   .products-table td::before,
-  .users-table td::before {
+  .users-table td::before,
+  .messages-table td::before {
     content: attr(data-label) ": ";
     font-weight: 700;
     color: rgba(255,255,255,0.8);
@@ -1118,9 +1126,11 @@ html[dir="rtl"] .role-badge,
   html[dir="rtl"] .orders-table td::before,
   html[dir="rtl"] .products-table td::before,
   html[dir="rtl"] .users-table td::before,
+  html[dir="rtl"] .messages-table td::before,
   .app.rtl .orders-table td::before,
   .app.rtl .products-table td::before,
-  .app.rtl .users-table td::before {
+  .app.rtl .users-table td::before,
+  .app.rtl .messages-table td::before {
     content: attr(data-label) " :";
     text-align: right;
     margin-right: 0;
@@ -1132,13 +1142,128 @@ html[dir="rtl"] .role-badge,
   html[dir="rtl"] .orders-table td,
   html[dir="rtl"] .products-table td,
   html[dir="rtl"] .users-table td,
+  html[dir="rtl"] .messages-table td,
   .app.rtl .orders-table td,
   .app.rtl .products-table td,
-  .app.rtl .users-table td {
+  .app.rtl .users-table td,
+  .app.rtl .messages-table td {
     direction: rtl;
     text-align: right;
     flex-direction: row-reverse;
   }
+
+  .messages-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .messages-table {
+    border-radius: 8px;
+  }
+}
+
+/* Messages Section */
+.messages-section {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(12, 14, 22, 0.95));
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.messages-section h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #ff6b35;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.messages-table {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.messages-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  table-layout: auto;
+}
+
+.messages-table th {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 143, 90, 0.1));
+  padding: 1.2rem;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+  color: #ff8f5a;
+  white-space: nowrap;
+  font-size: 1rem;
+}
+
+.messages-table td {
+  padding: 1.1rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  text-align: left;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.messages-table tbody tr {
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.messages-table tbody tr:hover {
+  background: rgba(255, 107, 53, 0.08);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+}
+
+.messages-table td .cell-scroll {
+  display: block;
+  max-width: 100%;
+  color: rgba(255, 255, 255, 0.85);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+html[dir="rtl"] .messages-table,
+.app.rtl .messages-table {
+  direction: rtl;
+}
+
+html[dir="rtl"] .messages-table th,
+html[dir="rtl"] .messages-table td,
+.app.rtl .messages-table th,
+.app.rtl .messages-table td {
+  text-align: right;
+}
+
+html[dir="rtl"] .messages-section h3,
+.app.rtl .messages-section h3 {
+  text-align: right;
+}
+
+.empty-row {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-style: italic;
+  padding: 2rem !important;
 }
 
 /* Loading & Error States */

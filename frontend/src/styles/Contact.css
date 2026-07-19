@@ -1,0 +1,148 @@
+.contact-page {
+  padding: 5rem 1.5rem;
+  min-height: calc(100vh - 160px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, rgba(255, 186, 77, 0.12), transparent 20%),
+              radial-gradient(circle at bottom right, rgba(255, 107, 53, 0.14), transparent 18%),
+              linear-gradient(180deg, rgba(10, 12, 24, 1), rgba(21, 24, 33, 1));
+}
+
+.contact-page-inner {
+  width: min(760px, 100%);
+  background: rgba(8, 10, 16, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255,255,255,0.02);
+  padding: 3.5rem 2.5rem 2.5rem;
+  color: #fff;
+  position: relative;
+}
+
+.contact-page-inner h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  letter-spacing: -0.04em;
+}
+
+/* Decorative floating icon above the card */
+.contact-page-inner::before {
+  content: "✉️";
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffb657 0%, #ff7a20 100%);
+  color: #111;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 12px 30px rgba(255, 118, 45, 0.18);
+  font-size: 22px;
+}
+
+.contact-page-inner p {
+  margin: 0 0 2rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.85;
+  font-size: 1.05rem;
+}
+
+.contact-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.94rem;
+  color: rgba(255, 255, 255, 0.82);
+  /* start slightly lower and invisible, then animate up */
+  transform: translateY(8px);
+  opacity: 0;
+  animation: slideUpFade 420ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+
+/* make the label text follow the container alignment */
+.contact-form label span {
+  display: block;
+  text-align: inherit;
+}
+
+/* Directional alignment: left for ltr, right for rtl */
+.contact-page.ltr .contact-form label { text-align: left; }
+.contact-page.rtl .contact-form label { text-align: right; }
+
+/* Staggered delays for a nicer entrance */
+.contact-form label:nth-of-type(1) { animation-delay: 0s; }
+.contact-form label:nth-of-type(2) { animation-delay: 0.08s; }
+.contact-form label:nth-of-type(3) { animation-delay: 0.16s; }
+
+@keyframes slideUpFade {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  outline: none;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: rgba(255, 186, 77, 0.85);
+  box-shadow: 0 0 0 4px rgba(255, 186, 77, 0.12);
+}
+
+.contact-submit {
+  width: fit-content;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ffb657 0%, #ff7a20 100%);
+  color: #111;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.18s ease;
+  box-shadow: 0 14px 32px rgba(255, 118, 45, 0.18);
+}
+
+.contact-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(255, 118, 45, 0.24);
+}
+
+.contact-status {
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+.contact-status.success {
+  background: rgba(46, 125, 50, 0.16);
+  color: #b8f2b8;
+}
+
+.contact-status.error {
+  background: rgba(255, 111, 97, 0.14);
+  color: #ffd7d0;
+}
+
+@media (max-width: 768px) {
+  .contact-page-inner {
+    padding: 2.5rem 1.5rem 1.5rem;
+    border-radius: 18px;
+  }
+}
